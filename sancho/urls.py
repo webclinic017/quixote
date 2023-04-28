@@ -11,5 +11,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     # Vista de los BT
     path('backtest/list.html', views.bt_list, name='backtest_list'),
-    path('backtest/details/<int:bt_id>/', views.bt_detail, name='backtest_detail')
+    path('backtest/metrics/<int:bt_id>/', views.bt_metrics, name='backtest_metrics')
 ]

@@ -16,15 +16,22 @@ def bt_list(request):
     
 
 # Vista para ver los detalles de un único BT
-'''
-def bt_detail(request, bt_id: int):
-    bt = get_object_or_404(Backtest,
-                           id=bt_id,
-                           family=Backtest.Source.GENBOX)
-    return render(request,
-                  'sancho/backtest/detail.html',
-                  {'bt': bt})
-'''
 
-def bt_detail(request, bt_id: int):
+
+def bt_metrics(request, bt_id: int):
+    # We need first to retrieve the Backtest and then
+    # do the query for the metric
+    bt = get_object_or_404(Backtest,
+                           id=bt_id)
+    metrics = get_object_or_404(Metrics,
+                                backtest=bt)
+    
+    return render(request,
+                  'sancho/backtest/metrics.html',
+                  {'metrics': metrics})
+
+
+'''
+def bt_metrics(request, bt_id: int):
     return HttpResponse('<strong>Yeap! It worked so far!</strong>')
+'''
