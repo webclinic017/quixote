@@ -1,0 +1,18 @@
+{% extends "sancho/base.html" %}
+{% block title %}
+    Backtest Listing
+{% endblock %}
+{% block content %}
+    <h1>List of Backtests</h1>
+    {% for bt in bts %}
+        <ul>
+            <li>
+                Backtest Name: {{ bt.name }}
+                Backtest Symbol: {{ bt.symbol }}
+                Backtest TF: {{ bt.timeframe }}
+                Backtest Source: {{ bt.family }}
+            </li>
+        </ul>        
+    {% endfor %}
+{% endblock %}
+
