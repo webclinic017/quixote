@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3rd party
     #'durationwidget',
+    'bootstrap5',
     # My apps
     'sancho.apps.SanchoConfig',
 ]

@@ -16,10 +16,15 @@ def bt_list(request):
     
 
 # Vista para ver los detalles de un único BT
+'''
 def bt_detail(request, bt_id: int):
     bt = get_object_or_404(Backtest,
                            id=bt_id,
-                           status=Backtest.Source.GENBOX)
+                           family=Backtest.Source.GENBOX)
     return render(request,
                   'sancho/backtest/detail.html',
                   {'bt': bt})
+'''
+
+def bt_detail(request, bt_id: int):
+    return HttpResponse('<strong>Yeap! It worked so far!</strong>')
