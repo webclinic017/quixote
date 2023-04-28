@@ -1,0 +1,36 @@
+{% extends "sancho/base.html" %}
+{% load bootstrap5 %}
+
+{% block title %}
+Metrics of the Backtest
+{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <th>
+                <tr>
+                    <th scope="col">Backtest</th>
+                    <th scope="col">Period</th>
+                    <th scope="col">TF</th>
+                    <th scope="col">Kratio</th>
+                    <th scope="col">Num. Ops</th>
+                    <th scope="col">Max. Exposure (Lots)</th>
+                    <th scope="col">Time in Market (DD:HH:MM:SS)</th>
+                </tr>
+            </th>
+        </thead>
+        <tbody>            
+            <tr>
+                <th scope="row">{{ metrics.backtest.name }}</th>
+                <td>{{ metrics.period_type }}</td>
+                <td>{{ metrics.backtest.timeframe }}</td>
+                <td>{{ metrics.kratio }}</td>
+                <td>{{ metrics.num_ops }}</td>
+                <td>{{ metrics.max_exposure }}</td>
+                <td>{{ metrics.time_in_market }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
