@@ -13,7 +13,8 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Symbol</th>
-                        <th scope="col">TimeFrame</th>
+                        <th scope="col">Order Type</th>
+                        <th scope="col">TimeFrame</th>                        
                         <th scope="col">Source</th>
                     </tr>
                 </th>
@@ -23,7 +24,8 @@
                 <tr>
                     <th scope="row">{{ bt.name }}</th>
                     <td>{{ bt.symbol }}</td>
-                    <td>{{ bt.timeframe }}</td>
+                    <td>{{ bt.ordertype }}</td>
+                    <td>{{ bt.timeframe }}</td>                    
                     <td>{{ bt.family }}</td>
                 </tr>
                 {% endfor %}

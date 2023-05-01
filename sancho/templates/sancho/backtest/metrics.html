@@ -11,6 +11,7 @@ Metrics of the Backtest
             <th>
                 <tr>
                     <th scope="col">Backtest</th>
+                    <th scope="col">Order TYpe</th>
                     <th scope="col">Period</th>
                     <th scope="col">TF</th>
                     <th scope="col">Kratio</th>
@@ -23,6 +24,7 @@ Metrics of the Backtest
         <tbody>            
             <tr>
                 <th scope="row">{{ metrics.backtest.name }}</th>
+                <td>{{ metrics.backtest.ordertype }}</td>
                 <td>{{ metrics.period_type }}</td>
                 <td>{{ metrics.backtest.timeframe }}</td>
                 <td>{{ metrics.kratio }}</td>

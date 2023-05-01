@@ -21,6 +21,7 @@ class Backtest(models.Model):
         METATRADER4 = 'MT4', 'Metatrader4'
         METATRADER5 = 'MT5', 'Metatrader5'
         STATEMENT   = 'STM', 'Statement'
+        UPLOADED    = 'UP', 'Uploaded From File'
     
     # Clase que contiene una enumeración para los pares de divisas    
     class ForexPair(models.TextChoices):
@@ -59,16 +60,26 @@ class Backtest(models.Model):
         D1   = 'D1', 'Daily'
         W    = 'W', ' Weekly'
         M    = 'M', 'Monthly'
+
+    class OrderType(models.TextChoices):
+        BUY = 'BUY', 'Buy'
+        SELL = 'SELL', 'Sell'
+        BOTH = 'BUY&SELL', 'Buy and Sell'
         
     # Campos del modelo Backtest
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     initial_balance = models.DecimalField(max_digits=6, 
                                           decimal_places=0,
-                                          default=1000)
+                                          default=10000)
     
     symbol = models.CharField(max_length=6,
                               choices=ForexPair.choices,
                               default=ForexPair.EURUSD)
+    
+    ordertype = models.CharField(max_length=8,
+                                 choices=OrderType.choices,
+                                 default=OrderType.BOTH)
+
     timeframe = models.CharField(max_length=3,
                                  choices=TimeFrame.choices,
                                  default=TimeFrame.H4)
@@ -119,8 +130,9 @@ class Metrics(models.Model):
     pf = models.DecimalField(max_digits=4, decimal_places=2)
     rf = models.DecimalField(max_digits=4, decimal_places=2)
     dd = models.DecimalField(max_digits=6, decimal_places=2)
-    es = models.DecimalField(max_digits=5, decimal_places=2)
+    ep = models.DecimalField(max_digits=5, decimal_places=2)
     
+    kratio = models.DecimalField(max_digits=4, decimal_places=2)
     max_losing_strike = models.PositiveIntegerField()
     max_winning_strike = models.PositiveIntegerField()
     avg_losing_strike = models.PositiveIntegerField()
@@ -130,7 +142,6 @@ class Metrics(models.Model):
     max_exposure = models.DecimalField(max_digits=4, decimal_places=2)
     time_in_market = models.DurationField()
     pct_winner = models.DecimalField(max_digits=4, decimal_places=2)
-    pct_loser = models.DecimalField(max_digits=4, decimal_places=2)
     closing_days = models.PositiveIntegerField()
     sqn = models.DecimalField(max_digits=4, decimal_places=2)
     sharpe_ratio = models.DecimalField(max_digits=4, decimal_places=2)
@@ -141,7 +152,9 @@ class Metrics(models.Model):
     avg_win = models.DecimalField(max_digits=6, decimal_places=2)
     avg_loss = models.DecimalField(max_digits=6, decimal_places=2)
     total_bt_duration = models.DurationField()
-    kratio = models.DecimalField(max_digits=4, decimal_places=2)
+    avg_op_duration = models.DurationField()
+    longest_op_duration = models.DurationField()
+    shortest_op_duration = models.DurationField()
     
     objects = models.Manager()
     profitable = ProfitableBacktests()

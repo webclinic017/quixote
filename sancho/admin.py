@@ -21,11 +21,11 @@ class MetricsAdminForm(forms.ModelForm):
 
 @admin.register(Backtest)
 class BacktestAdmin(admin.ModelAdmin):
-    list_display = ['name', 'symbol', 'timeframe', 'family', 'created']
-    list_filter = ['timeframe', 'symbol', 'family', 'name']
+    list_display = ['name', 'symbol', 'timeframe', 'ordertype', 'family', 'created']
+    list_filter = ['timeframe', 'symbol', 'ordertype', 'family', 'name']
     search_fields = ['symbol', 'family']
     date_hierarchy = 'created'
-    ordering = ['timeframe', 'symbol', 'name', 'family']
+    ordering = ['timeframe', 'symbol', 'name', 'ordertype', 'family']
 
 @admin.register(Metrics)
 class MetricsAdmin(admin.ModelAdmin):
