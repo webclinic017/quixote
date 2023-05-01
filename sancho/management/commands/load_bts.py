@@ -1,4 +1,6 @@
 # python imports
+from decimal import Decimal
+from datetime import datetime, timedelta
 from pathlib import Path
 import pandas as pd
 
@@ -48,23 +50,28 @@ class Command(BaseCommand):
                               ordertype=ordertype,
                               timeframe=timeframe)
                 
-                profit = bts.loc[ix]['BN']
-                num_ops = bts.loc[ix]['NumOps']
-                pf = bts.loc[ix]['PF']
-                rf = bts.loc[ix]['RF']
-                dd = bts.loc[ix]['DD']
-                ep = bts.loc[ix]['EP']
-                pct_winner = bts.loc[ix]['Pct_win']
-                kratio = bts.loc[ix]['kratio']
+                #breakpoint()
+                # Each decimal value must be converted to float prior to be converted
+                # into Decimal.
+                # To avoid TypeError: conversion from numpy.int64 to Decimal is not supported
+
+                profit = Decimal(float(bts.loc[ix]['BN']))
+                num_ops = Decimal(float(bts.loc[ix]['NumOps']))
+                pf = Decimal(float(bts.loc[ix]['PF']))
+                rf = Decimal(float(bts.loc[ix]['RF']))
+                dd = Decimal(float(bts.loc[ix]['DD']))
+                ep = Decimal(float(bts.loc[ix]['EP']))
+                pct_winner = Decimal(float(bts.loc[ix]['Pct_win']))
+                kratio = Decimal(float(bts.loc[ix]['kratio']))
                 best_operation_pips = bts.loc[ix]['BestOp']
                 worst_operation_pips = bts.loc[ix]['WorstOp']
                 max_losing_strike = bts.loc[ix]['Max_Loss_Strike']
                 max_winning_strike = bts.loc[ix]['Max_Win_Strike']
-                max_exposure = bts.loc[ix]['Max_Exposure']
-                sqn = bts.loc[ix]['SQN']
-                avg_win = bts.loc[ix]['Avg_Win']
-                avg_loss = bts.loc[ix]['Avg_Loss']
-                closing_days = bts.loc[ix]['Days']
+                max_exposure = Decimal(float(bts.loc[ix]['Max_Exposure']))
+                sqn = Decimal(float(bts.loc[ix]['SQN']))
+                avg_win = Decimal(float(bts.loc[ix]['Avg_Win']))
+                avg_loss = Decimal(float(bts.loc[ix]['Avg_Loss']))
+                closing_days = Decimal(float(bts.loc[ix]['Days']))
 
                 # Create object for metrics
                 mt = Metrics(backtest = bt,
@@ -88,11 +95,23 @@ class Command(BaseCommand):
                              loss=0,
                              max_lots=0,
                              min_lots=0,
-                             sharpe_ratio=0)
+                             sharpe_ratio=0,
+                             avg_losing_strike=0,
+                             avg_winning_strike=0,
+                             time_in_market=timedelta(days=0, hours=0, minutes=0, seconds=0),
+                             best_operation_datetime=datetime(2015,1,1,0,0,0),
+                             worst_operation_datetime=datetime(2018,1,1,0,0,0),
+                             total_bt_duration=timedelta(days=3000, hours=20, minutes=12, seconds=0),
+                             avg_op_duration=timedelta(days=25, hours=12),
+                             longest_op_duration=timedelta(days=100, hours=0),
+                             shortest_op_duration=timedelta(minutes=1))
                 
-                print(f'Adding to database backtest {ix} of {len(bts.index)}')
+                #print(f'Adding to database backtest {ix} of {len(bts.index)}')
                 # Commit both objects to database
-                bt.save()
-                mt.save()
+                try:
+                    bt.save()
+                    mt.save()
+                except:
+                    print(f'Backtest {ix} no será incluido en la BBDD. Ocurrió un error inesperado')
 
         print(f'##########################################################################################')
